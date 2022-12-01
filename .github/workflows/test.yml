@@ -33,11 +33,6 @@ jobs:
     - name: Unzip Jetraw
       run: mkdir jetraw && tar -xzf jetraw.tar.gz -C jetraw --strip-components 1
 
-    - name: Setup Library Path
-      run: |
-        export LD_LIBRARY_PATH=`pwd`/jetraw/lib/
-        echo $LD_LIBRARY_PATH
-
     - name: Install Jetraw license
       run: 'echo "$JETRAW_LICENSE_KEY" > license.txt && mkdir ~/.config/jetraw && cp license.txt ~/.config/jetraw/'
       shell: bash

@@ -38,6 +38,12 @@ jobs:
         export LD_LIBRARY_PATH=`pwd`/jetraw/lib/
         echo $LD_LIBRARY_PATH
 
+    - name: Install Jetraw license
+      run: 'echo "$JETRAW_LICENSE_KEY" > license.txt && mkdir ~/.config/jetraw && cp license.txt ~/.config/jetraw/'
+      shell: bash
+      env:
+        JETRAW_LICENSE_KEY: ${{secrets.JETRAW_LICENSE_KEY}}
+
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v4
       with:

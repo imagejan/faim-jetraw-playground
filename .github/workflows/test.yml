@@ -1,0 +1,51 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: test-${{ github.head_ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHONUNBUFFERED: "1"
+  FORCE_COLOR: "1"
+
+jobs:
+  run:
+    name: Python ${{ matrix.python-version }} on ${{ startsWith(matrix.os, 'macos-') && 'macOS' || startsWith(matrix.os, 'windows-') && 'Windows' || 'Linux' }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        python-version: ['3.7', '3.8', '3.9', '3.10', '3.11.0-beta.5 - 3.11']
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Download Jetraw
+      run: curl -sL "https://github.com/Jetraw/Jetraw/releases/download/22.02.16.1/JetrawWithDPCore-22.02.16.1.tar.gz" >jetraw.tar.gz
+
+    - name: Unzip Jetraw
+      run: mkdir jetraw && tar -xzf jetraw.tar.gz -C jetraw --strip-components 1
+
+    - name: Install Jetraw license
+      run: 'mkdir ~/.config/jetraw && echo "$JETRAW_LICENSE_KEY" > ~/.config/jetraw/license.txt'
+      shell: bash
+      env:
+        JETRAW_LICENSE_KEY: ${{secrets.JETRAW_LICENSE_KEY}}
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install Hatch
+      run: pip install --upgrade hatch
+
+    - name: Run tests
+      run: hatch run cov

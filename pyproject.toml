@@ -24,6 +24,8 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
 dependencies = [
+  "numpy", # required by jetraw
+  "tifffile",
   "jetraw @ https://github.com/Jetraw/pyJetraw/releases/download/21.06.23.2/JetRaw-0.9.1-py3-none-any.whl",
   "dpcore @ https://github.com/Jetraw/pyDpcore/releases/download/21.06.23.1/DPCore-0.9.0-py3-none-any.whl"
 ]
@@ -45,6 +47,10 @@ dependencies = [
   "pytest",
   "pytest-cov",
 ]
+
+[tool.hatch.envs.default.env-vars]
+LD_LIBRARY_PATH = "/home/runner/work/faim-jetraw-playground/faim-jetraw-playground/jetraw/lib/"
+
 [tool.hatch.envs.default.scripts]
 cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=src/faim_jetraw --cov=tests {args}"
 no-cov = "cov --no-cov {args}"

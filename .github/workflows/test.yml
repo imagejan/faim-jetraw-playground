@@ -34,7 +34,7 @@ jobs:
       run: mkdir jetraw && tar -xzf jetraw.tar.gz -C jetraw --strip-components 1
 
     - name: Install Jetraw license
-      run: 'echo "$JETRAW_LICENSE_KEY" > license.txt && mkdir ~/.config/jetraw && cp license.txt ~/.config/jetraw/'
+      run: 'mkdir ~/.config/jetraw && echo "$JETRAW_LICENSE_KEY" > ~/.config/jetraw/license.txt'
       shell: bash
       env:
         JETRAW_LICENSE_KEY: ${{secrets.JETRAW_LICENSE_KEY}}

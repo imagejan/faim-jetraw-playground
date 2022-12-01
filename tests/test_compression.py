@@ -22,4 +22,4 @@ dat_file = "./dat/61010244_61010245_binning.dat"
 def test_correct_cam_ids(input_file, cam_id, tmp_path):
     prepare_and_compress(Path(input_file), dat_file, cam_id, tmp_path)
     assert Path(tmp_path, Path(input_file).name).exists()
-    assert Path(tmp_path, Path(input_file).name).stat().st_size == 0
+    assert 65000 < Path(tmp_path, Path(input_file).name).stat().st_size < 68000

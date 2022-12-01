@@ -48,6 +48,9 @@ dependencies = [
   "pytest-cov",
 ]
 
+[tool.hatch.envs.default.env-vars]
+LD_LIBRARY_PATH = "/home/runner/work/faim-jetraw-playground/faim-jetraw-playground/jetraw/lib/"
+
 [tool.hatch.envs.default.scripts]
 cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=src/faim_jetraw --cov=tests {args}"
 no-cov = "cov --no-cov {args}"

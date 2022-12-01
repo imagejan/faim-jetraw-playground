@@ -48,4 +48,4 @@ jobs:
       run: pip install --upgrade hatch
 
     - name: Run tests
-      run: hatch run cov
+      run: hatch run --config .github/hatch.toml cov
